@@ -850,6 +850,7 @@ let currentQ = 0;
 let selectedOption = null;
 let dominantPattern = null;
 let secondaryPattern = null;
+let answerLog = [];
 
 function startAssessment() {
   showScreen('screen-question');
@@ -893,6 +894,8 @@ function nextQuestion() {
   const ios = q.options[selectedOption].ios;
   const weight = WEIGHTED_QUESTIONS.includes(currentQ) ? 1.5 : 1;
   scores[ios] += weight;
+
+  answerLog.push(`Q${currentQ + 1}: ${q.options[selectedOption].text} [${ios}]`);
 
   currentQ++;
 
@@ -1007,6 +1010,9 @@ async function submitDiagnosticRequest() {
   btn.disabled = true;
 
   const dp = PATTERNS[dominantPattern];
+  const sp = PATTERNS[secondaryPattern];
+  const scoresSorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const distribution = scoresSorted.map(([ios, score]) => `${PATTERNS[ios].name}: ${score}`).join(' | ');
 
   try {
     await fetch('https://formspree.io/f/xwvwndaa', {
@@ -1014,8 +1020,11 @@ async function submitDiagnosticRequest() {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: JSON.stringify({
         email: email,
-        pattern: dp ? dp.name : '',
-        instrument: 'IOS-5 Snapshot'
+        instrument: 'IOS-5 Snapshot',
+        dominant_pattern: dp ? dp.name : '',
+        secondary_pattern: sp ? sp.name : '',
+        score_distribution: distribution,
+        answers: answerLog.join(' | ')
       })
     });
     document.getElementById('closing-form-wrap').style.display = 'none';
