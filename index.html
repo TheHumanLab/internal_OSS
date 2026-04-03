@@ -411,6 +411,15 @@
   .extended-block.visible { display: block; }
   .extended-block .section-label { margin-bottom: 14px; }
 
+  .closing-section {
+    border: 1px solid var(--divider);
+    padding: 36px 32px 32px;
+    margin-top: 40px;
+  }
+  .closing-section .section-label {
+    margin-bottom: 20px;
+  }
+
   .footer-note {
     font-size: 10px;
     letter-spacing: 0.1em;
@@ -553,43 +562,22 @@
     <div class="section-label">Pattern Distribution</div>
     <div id="r-distribution"></div>
 
-    <div class="snapshot-footer">
-      <div class="section-label">Structural Snapshot</div>
-      <p>Your Structural Snapshot identifies your dominant pattern.</p>
-      <p>Most individuals are not one pattern. They are an interaction of behavioural systems.</p>
-      <p>This snapshot identifies structure. The full diagnostic maps interaction.</p>
-      <p>Your full Human Lab Structural Diagnostic reveals:
-        <ul>
-          <li>your stress response pattern</li>
-          <li>your adaptation structure</li>
-          <li>your decision architecture</li>
-          <li>your growth constraints</li>
-          <li>your secondary operating systems</li>
-        </ul>
-      </p>
-    </div>
+    <div class="closing-section">
+      <div class="section-label">What this snapshot doesn't show you</div>
+      <p class="body-text" style="margin-bottom:18px;">Your dominant pattern is identified. But a pattern without context is incomplete data.</p>
+      <p class="body-text" style="margin-bottom:18px;">This snapshot does not show you why you default to this structure under pressure — or what it costs you when you do. It does not show you where your secondary system creates internal conflict you've likely mistaken for a personality trait. It does not show you the decision architecture running beneath your conscious reasoning, or the specific conditions that cause your structure to work against you.</p>
+      <p class="body-text" style="margin-bottom:18px;">Most people spend years developing self-awareness without ever reaching the level below behaviour. The full diagnostic goes there.</p>
+      <p class="body-text" style="margin-bottom:18px;">It maps the interaction between your operating systems — the structural tension, the adaptation pattern, the constraint mechanism that repeats across every area of your life regardless of context.</p>
+      <p class="body-text" style="margin-bottom:32px;">If you've ever known something was off in how you operate but couldn't locate it — that is what this finds.</p>
 
-    <div class="cta-section" style="margin-top:40px;">
-      <a href="#" class="btn-primary">Access Full Structural Mapping</a>
-    </div>
-
-    <hr class="divider">
-
-    <div class="email-section">
-      <div class="email-section-title">Receive your extended structural observation</div>
-      <p>Your Internal Operating System identifies your dominant structure. Your extended Human Lab observation reveals one deeper behavioural interaction within your internal system.</p>
-      <div class="email-row">
-        <input type="email" class="email-input" id="email-input" placeholder="Your email address">
-        <button class="btn-email" onclick="submitEmail()">Send my extended insights</button>
+      <div id="closing-form-wrap">
+        <div class="email-row">
+          <input type="email" class="email-input" id="email-input" placeholder="Your email address">
+          <button class="btn-email" onclick="submitDiagnosticRequest()">Request full diagnostic</button>
+        </div>
+        <div id="closing-error" style="display:none;font-size:12px;color:var(--accent);margin-top:10px;letter-spacing:0.06em;">Please enter a valid email address.</div>
       </div>
-    </div>
-
-    <div class="extended-block" id="extended-block">
-      <div class="section-label">Extended Structural Observation</div>
-      <p class="body-text" id="r-extended"></p>
-      <hr class="divider">
-      <p class="body-text" style="margin-bottom:20px;">Your Internal Operating System is one layer of your structure. Your full Human Lab Diagnostic maps the complete behavioural architecture.</p>
-      <a href="#" class="btn-primary">Access Full Structural Mapping</a>
+      <div id="closing-success" style="display:none;font-size:13px;color:var(--secondary);letter-spacing:0.08em;text-transform:uppercase;padding:16px 0;">Received. I'll be in touch.</div>
     </div>
 
     <div class="footer-note" style="margin-top:48px;">Human Lab IOS-5 Classification Model</div>
@@ -1042,18 +1030,39 @@ function renderResult() {
   });
 }
 
-function submitEmail() {
+async function submitDiagnosticRequest() {
   const email = document.getElementById('email-input').value;
+  const errorEl = document.getElementById('closing-error');
   if (!email || !email.includes('@')) {
-    document.getElementById('email-input').style.borderColor = 'var(--accent)';
+    errorEl.style.display = 'block';
     return;
   }
-  document.getElementById('email-input').style.borderColor = '';
+  errorEl.style.display = 'none';
+
+  const btn = document.querySelector('#closing-form-wrap .btn-email');
+  btn.textContent = 'Sending...';
+  btn.disabled = true;
 
   const dp = PATTERNS[dominantPattern];
-  document.getElementById('r-extended').textContent = dp.extended;
-  document.getElementById('extended-block').classList.add('visible');
-  document.getElementById('extended-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  try {
+    await fetch('https://formspree.io/f/xwvwndaa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        email: email,
+        pattern: dp ? dp.name : '',
+        instrument: 'IOS-5 Snapshot'
+      })
+    });
+    document.getElementById('closing-form-wrap').style.display = 'none';
+    document.getElementById('closing-success').style.display = 'block';
+  } catch (e) {
+    btn.textContent = 'Request full diagnostic';
+    btn.disabled = false;
+    errorEl.textContent = 'Something went wrong. Please try again.';
+    errorEl.style.display = 'block';
+  }
 }
 </script>
 </body>
