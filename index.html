@@ -8,13 +8,17 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --bg: #E8E4DC;
-    --text: #1D1C17;
+    --bg: #1D1C17;
+    --bg2: #252320;
+    --bg3: #2a2825;
+    --text: #f8f6f1;
     --secondary: #6B6B6B;
-    --accent: #A89A6F;
+    --accent: #baa36c;
+    --accent-dim: #6B5D3F;
     --btn-bg: #1D1C17;
-    --btn-text: #ffffff;
-    --divider: rgba(29,28,23,0.12);
+    --btn-text: #f8f6f1;
+    --divider: rgba(248,246,241,0.08);
+    --divider-strong: rgba(186,163,108,0.2);
   }
 
   body {
@@ -33,7 +37,7 @@
     font-size: 10px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--secondary);
+    color: var(--accent-dim);
     padding: 22px 0 20px;
     text-align: center;
   }
@@ -48,7 +52,7 @@
 
   /* INTRO */
   .intro-header {
-    border-top: 1px solid var(--text);
+    border-top: 1px solid var(--accent-dim);
     border-bottom: 1px solid var(--divider);
     padding: 36px 0 32px;
     margin-bottom: 40px;
@@ -66,7 +70,7 @@
 
   .intro-sub {
     font-size: 13px;
-    color: var(--secondary);
+    color: var(--accent-dim);
     letter-spacing: 0.04em;
   }
 
@@ -88,6 +92,7 @@
   .spec-item {
     padding: 18px 20px;
     border-right: 1px solid var(--divider);
+    background: var(--bg2);
   }
   .spec-item:last-child { border-right: none; }
 
@@ -106,7 +111,7 @@
 
   /* QUESTIONS */
   .progress-bar-wrap {
-    height: 2px;
+    height: 1px;
     background: var(--divider);
     margin-bottom: 36px;
     position: relative;
@@ -114,7 +119,7 @@
 
   .progress-bar-fill {
     height: 100%;
-    background: var(--text);
+    background: var(--accent);
     transition: width 0.4s ease;
   }
 
@@ -122,7 +127,7 @@
     font-size: 10px;
     letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: var(--secondary);
+    color: var(--accent-dim);
     margin-bottom: 28px;
   }
 
@@ -142,16 +147,16 @@
     padding: 16px 20px;
     cursor: pointer;
     font-size: 14px;
-    color: var(--text);
+    color: var(--secondary);
     line-height: 1.5;
-    transition: border-color 0.15s, background 0.15s;
-    background: transparent;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+    background: var(--bg2);
     text-align: left;
     width: 100%;
   }
 
-  .option:hover { border-color: var(--accent); }
-  .option.selected { border-color: var(--text); background: rgba(29,28,23,0.05); }
+  .option:hover { border-color: var(--accent); color: var(--text); background: var(--bg3); }
+  .option.selected { border-color: var(--accent); background: var(--bg3); color: var(--text); }
 
   .nav-row {
     display: flex;
@@ -166,10 +171,10 @@
     font-size: 9px;
     letter-spacing: 0.18em;
     text-transform: uppercase;
-    color: var(--secondary);
+    color: var(--accent-dim);
     margin-bottom: 28px;
     padding-top: 36px;
-    border-top: 1px solid var(--text);
+    border-top: 1px solid var(--accent-dim);
   }
 
   .result-label-sm {
@@ -261,7 +266,7 @@
   }
 
   .secondary-block {
-    background: rgba(29,28,23,0.04);
+    background: var(--bg2);
     border: 1px solid var(--divider);
     padding: 24px;
     margin-top: 8px;
@@ -311,39 +316,13 @@
   .dist-level { color: var(--secondary); font-size: 12px; letter-spacing: 0.06em; }
   .dist-dominant { color: var(--accent); font-weight: 500; }
 
-  .snapshot-footer {
-    background: rgba(29,28,23,0.04);
-    border: 1px solid var(--divider);
-    padding: 28px;
-    margin-top: 40px;
-  }
-  .snapshot-footer .section-label { margin-bottom: 16px; }
-  .snapshot-footer p { font-size: 13px; color: var(--secondary); line-height: 1.7; margin-bottom: 12px; }
-  .snapshot-footer p:last-child { margin-bottom: 0; }
-  .snapshot-footer ul { list-style: none; margin-top: 10px; }
-  .snapshot-footer ul li {
-    font-size: 13px;
-    color: var(--secondary);
-    padding-left: 16px;
-    position: relative;
-    margin-bottom: 6px;
-  }
-  .snapshot-footer ul li::before {
-    content: '·';
-    position: absolute;
-    left: 0;
-    color: var(--accent);
-    font-size: 18px;
-    top: -2px;
-  }
-
   /* CTA */
   .cta-section { margin-top: 40px; text-align: center; }
 
   .btn-primary {
     display: inline-block;
-    background: var(--btn-bg);
-    color: var(--btn-text);
+    background: var(--accent);
+    color: #1D1C17;
     font-family: 'Public Sans', sans-serif;
     font-size: 12px;
     letter-spacing: 0.14em;
@@ -355,28 +334,16 @@
     text-align: center;
     text-decoration: none;
     transition: opacity 0.15s;
+    font-weight: 500;
   }
   .btn-primary:hover { opacity: 0.85; }
-
-  .email-section {
-    border: 1px solid var(--divider);
-    padding: 32px;
-    margin-top: 40px;
-  }
-  .email-section-title {
-    font-family: Georgia, serif;
-    font-size: 17px;
-    font-weight: normal;
-    margin-bottom: 10px;
-  }
-  .email-section p { font-size: 13px; color: var(--secondary); line-height: 1.7; margin-bottom: 20px; }
 
   .email-row { display: flex; gap: 0; }
   .email-input {
     flex: 1;
     border: 1px solid var(--divider);
     border-right: none;
-    background: transparent;
+    background: var(--bg2);
     padding: 13px 16px;
     font-family: 'Public Sans', sans-serif;
     font-size: 13px;
@@ -387,9 +354,9 @@
   .email-input:focus { border-color: var(--accent); }
 
   .btn-email {
-    background: var(--btn-bg);
-    color: var(--btn-text);
-    border: 1px solid var(--btn-bg);
+    background: var(--accent);
+    color: #1D1C17;
+    border: 1px solid var(--accent);
     padding: 13px 22px;
     font-family: 'Public Sans', sans-serif;
     font-size: 11px;
@@ -398,23 +365,15 @@
     cursor: pointer;
     white-space: nowrap;
     transition: opacity 0.15s;
+    font-weight: 500;
   }
   .btn-email:hover { opacity: 0.85; }
 
-  .extended-block {
-    display: none;
-    border: 1px solid var(--divider);
-    padding: 28px;
-    margin-top: 24px;
-    background: rgba(29,28,23,0.03);
-  }
-  .extended-block.visible { display: block; }
-  .extended-block .section-label { margin-bottom: 14px; }
-
   .closing-section {
-    border: 1px solid var(--divider);
+    border: 1px solid var(--divider-strong);
     padding: 36px 32px 32px;
     margin-top: 40px;
+    background: var(--bg2);
   }
   .closing-section .section-label {
     margin-bottom: 20px;
@@ -424,7 +383,7 @@
     font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--secondary);
+    color: var(--accent-dim);
     text-align: center;
     padding-top: 48px;
   }
@@ -441,7 +400,7 @@
 </head>
 <body>
 
-<div class="instrument-label">Human Lab Structural Identity Instrument</div>
+<div class="instrument-label">Human Lab · Structural Identity Instrument</div>
 
 <div class="container">
 
@@ -588,153 +547,153 @@
 <script>
 const QUESTIONS = [
   {
-    text: "When beginning a significant project, your first instinct is to:",
+    text: "When starting an important project, what do you find yourself focusing on first?",
     options: [
-      { text: "Identify the risks and establish clear parameters before proceeding.", ios: "S" },
-      { text: "Determine the fastest route to initial momentum.", ios: "M" },
-      { text: "Map all variables and understand the full scope of what's involved.", ios: "A" },
-      { text: "Assess who's involved and how the work will affect them.", ios: "AD" },
-      { text: "Design the structural framework that will make execution efficient.", ios: "B" }
+      { text: "What could go wrong and how to reduce risk.", ios: "S" },
+      { text: "How to get things moving as quickly as possible.", ios: "M" },
+      { text: "Understanding everything involved before acting.", ios: "A" },
+      { text: "Who is involved and how it will affect them.", ios: "AD" },
+      { text: "How to structure it so execution runs smoothly.", ios: "B" }
     ]
   },
   {
-    text: "When an agreed plan changes unexpectedly, your immediate internal response is:", // Q2 - weighted 1.5
+    text: "When a plan suddenly changes, your first internal reaction is usually:",
     options: [
-      { text: "A heightened need to understand the risks introduced by the change.", ios: "S" },
-      { text: "Rapid recalibration toward the next point of forward movement.", ios: "M" },
-      { text: "A need to analyse why the change occurred and what it signals.", ios: "A" },
-      { text: "A scan of how the change is landing for the people involved.", ios: "AD" },
-      { text: "An immediate assessment of what needs to be restructured.", ios: "B" }
+      { text: "What new risks does this create?", ios: "S" },
+      { text: "What's the next move forward?", ios: "M" },
+      { text: "Why did this change happen?", ios: "A" },
+      { text: "How is everyone reacting to this?", ios: "AD" },
+      { text: "What needs to be reworked structurally?", ios: "B" }
     ]
   },
   {
-    text: "When evaluating a new opportunity, you are primarily drawn to:",
+    text: "When considering a new opportunity, what naturally matters most to you?",
     options: [
-      { text: "Its reliability and long-term viability.", ios: "S" },
-      { text: "How quickly it can generate tangible progress.", ios: "M" },
-      { text: "The logic behind it and whether the evidence supports it.", ios: "A" },
-      { text: "How it fits within the broader context of current priorities.", ios: "AD" },
-      { text: "Whether it can be built into a repeatable, scalable process.", ios: "B" }
+      { text: "Whether it is stable and sustainable.", ios: "S" },
+      { text: "Whether it creates real forward progress.", ios: "M" },
+      { text: "Whether it makes logical sense.", ios: "A" },
+      { text: "Whether it fits the wider situation.", ios: "AD" },
+      { text: "Whether it can be built into a better system.", ios: "B" }
     ]
   },
   {
-    text: "Others most consistently describe your approach to problems as:",
+    text: "When things feel uncertain, what helps you move forward?",
     options: [
-      { text: "Measured and careful.", ios: "S" },
-      { text: "Direct and action-oriented.", ios: "M" },
-      { text: "Thorough and precise.", ios: "A" },
-      { text: "Responsive and context-aware.", ios: "AD" },
-      { text: "Systematic and improvement-focused.", ios: "B" }
+      { text: "Clear boundaries and defined expectations.", ios: "S" },
+      { text: "Taking action and adjusting as you go.", ios: "M" },
+      { text: "Getting enough clarity to understand the situation.", ios: "A" },
+      { text: "Understanding how others are positioned.", ios: "AD" },
+      { text: "Creating a structure to guide decisions.", ios: "B" }
     ]
   },
   {
-    text: "When a decision must be made without complete information, you tend to:",
+    text: "When you must decide before you feel fully ready, you tend to:",
     options: [
-      { text: "Delay until sufficient data is available to reduce uncertainty.", ios: "S" },
-      { text: "Make the call and adjust based on what follows.", ios: "M" },
-      { text: "Identify what information would be most critical and pursue it first.", ios: "A" },
-      { text: "Consider the positions of others before forming your view.", ios: "AD" },
-      { text: "Establish a decision framework to guide the process.", ios: "B" }
+      { text: "Wait until uncertainty is reduced.", ios: "S" },
+      { text: "Decide and refine afterwards.", ios: "M" },
+      { text: "Identify the most important missing information.", ios: "A" },
+      { text: "Consider how the decision affects others.", ios: "AD" },
+      { text: "Create a framework to guide the decision.", ios: "B" }
     ]
   },
   {
-    text: "When you observe dysfunction in a process or system, you instinctively:", // Q6 - weighted 1.5
+    text: "When you notice something isn't working, your instinct is to:",
     options: [
-      { text: "Flag the risk it presents before acting.", ios: "S" },
-      { text: "Move to fix it immediately.", ios: "M" },
-      { text: "Diagnose the root cause before intervening.", ios: "A" },
-      { text: "Consider who it is affecting and how they are experiencing it.", ios: "AD" },
-      { text: "Design a structural solution that prevents recurrence.", ios: "B" }
+      { text: "Identify the risk before acting.", ios: "S" },
+      { text: "Move quickly to correct it.", ios: "M" },
+      { text: "Understand the root cause first.", ios: "A" },
+      { text: "Consider who is affected.", ios: "AD" },
+      { text: "Fix the structure so it doesn't repeat.", ios: "B" }
     ]
   },
   {
-    text: "The type of environment where you produce your best work is one that:",
+    text: "The environment where you are most effective is usually one that:",
     options: [
-      { text: "Has consistent structure and predictable expectations.", ios: "S" },
-      { text: "Allows for rapid iteration and visible forward movement.", ios: "M" },
-      { text: "Prioritises depth, accuracy, and intellectual rigour.", ios: "A" },
-      { text: "Is responsive to shifting needs and values open communication.", ios: "AD" },
-      { text: "Rewards improvement and the refinement of how things operate.", ios: "B" }
+      { text: "Has clear expectations and stability.", ios: "S" },
+      { text: "Allows fast movement and progress.", ios: "M" },
+      { text: "Values depth and careful thinking.", ios: "A" },
+      { text: "Is responsive and people aware.", ios: "AD" },
+      { text: "Encourages improving how things work.", ios: "B" }
     ]
   },
   {
-    text: "When collaborating with others, the dynamic you most naturally create is:",
+    text: "In group situations, the role you naturally fall into is:",
     options: [
-      { text: "Stability — others know what to expect from you.", ios: "S" },
-      { text: "Momentum — you generate forward energy in the group.", ios: "M" },
-      { text: "Clarity — you surface what others may have overlooked.", ios: "A" },
-      { text: "Cohesion — you adjust to maintain productive relationships.", ios: "AD" },
-      { text: "Efficiency — you identify what can be improved in how the group operates.", ios: "B" }
+      { text: "The stabilising presence.", ios: "S" },
+      { text: "The one creating momentum.", ios: "M" },
+      { text: "The one bringing clarity.", ios: "A" },
+      { text: "The one maintaining cohesion.", ios: "AD" },
+      { text: "The one improving how things operate.", ios: "B" }
     ]
   },
   {
-    text: "When reviewing past performance, you are primarily focused on:",
+    text: "When reviewing results, your attention usually goes first to:",
     options: [
-      { text: "Whether outcomes were consistent with what was expected.", ios: "S" },
-      { text: "How much progress was achieved against targets.", ios: "M" },
-      { text: "Understanding what worked, what didn't, and exactly why.", ios: "A" },
-      { text: "How the process was experienced by those involved.", ios: "AD" },
-      { text: "What structural improvements could increase future performance.", ios: "B" }
+      { text: "Whether things stayed on track.", ios: "S" },
+      { text: "Whether progress was made.", ios: "M" },
+      { text: "Why things worked or failed.", ios: "A" },
+      { text: "How people experienced the process.", ios: "AD" },
+      { text: "What could be improved structurally.", ios: "B" }
     ]
   },
   {
-    text: "Under elevated pressure, the behaviour others observe in you most often is:",
+    text: "When pressure increases, what usually becomes more visible in you?",
     options: [
-      { text: "Increased caution and a tighter focus on managing risk.", ios: "S" },
-      { text: "Intensified activity and reduced tolerance for delays.", ios: "M" },
-      { text: "More rigorous analysis and a reluctance to act without clarity.", ios: "A" },
-      { text: "Heightened attention to the dynamics of those around you.", ios: "AD" },
-      { text: "A sustained drive to identify and correct what's not working.", ios: "B" }
+      { text: "Greater caution.", ios: "S" },
+      { text: "Faster action.", ios: "M" },
+      { text: "Deeper analysis.", ios: "A" },
+      { text: "Increased awareness of others.", ios: "AD" },
+      { text: "A drive to fix what isn't working.", ios: "B" }
     ]
   },
   {
-    text: "When a proposed solution is structurally sound but feels wrong, you:",
+    text: "When something looks right on paper but feels wrong to you, you usually:",
     options: [
-      { text: "Trust the structure and proceed, noting any risk factors.", ios: "S" },
-      { text: "Implement it and refine based on outcome.", ios: "M" },
-      { text: "Continue evaluating until the feeling is resolved by evidence.", ios: "A" },
-      { text: "Use the feeling as data and examine what it might indicate.", ios: "AD" },
-      { text: "Redesign the solution until both elements are aligned.", ios: "B" }
+      { text: "Trust the structure but stay alert to risk.", ios: "S" },
+      { text: "Move forward and adjust if needed.", ios: "M" },
+      { text: "Keep evaluating until it makes sense.", ios: "A" },
+      { text: "Treat the feeling as useful information.", ios: "AD" },
+      { text: "Redesign until both align.", ios: "B" }
     ]
   },
   {
-    text: "Your most consistent point of friction in collaborative settings is:", // Q12 - weighted 1.5
+    text: "What most often frustrates you when working with others?",
     options: [
-      { text: "Others moving faster than the risk landscape warrants.", ios: "S" },
-      { text: "Processes that slow momentum without adding proportionate value.", ios: "M" },
-      { text: "Decisions made without sufficient analysis or evidence.", ios: "A" },
-      { text: "Environments that prioritise outcomes over the quality of relationships.", ios: "AD" },
-      { text: "Systems that continue operating inefficiently despite available improvements.", ios: "B" }
+      { text: "People ignoring obvious risks.", ios: "S" },
+      { text: "Slow processes that block progress.", ios: "M" },
+      { text: "Decisions made without thinking.", ios: "A" },
+      { text: "Poor awareness of people impact.", ios: "AD" },
+      { text: "Inefficient systems that stay unchanged.", ios: "B" }
     ]
   },
   {
-    text: "The characteristic others most often observe in your decision-making is:",
+    text: "Others usually describe your decision style as:",
     options: [
-      { text: "Deliberateness — you rarely act without considered reasoning.", ios: "S" },
-      { text: "Decisiveness — you move to resolution without prolonged hesitation.", ios: "M" },
-      { text: "Precision — you are attentive to what others may not have considered.", ios: "A" },
-      { text: "Contextual sensitivity — you factor in dimensions others might miss.", ios: "AD" },
-      { text: "Structural clarity — you design decisions rather than simply make them.", ios: "B" }
+      { text: "Careful and considered.", ios: "S" },
+      { text: "Decisive and forward moving.", ios: "M" },
+      { text: "Precise and thoughtful.", ios: "A" },
+      { text: "Aware and balanced.", ios: "AD" },
+      { text: "Structured and well designed.", ios: "B" }
     ]
   },
   {
-    text: "When asked to act on something you consider under-developed, you:",
+    text: "When asked to act on something you believe isn't ready, you usually:",
     options: [
-      { text: "Proceed cautiously, documenting concerns for the record.", ios: "S" },
-      { text: "Act and improve iteratively as results emerge.", ios: "M" },
-      { text: "Push to refine further before committing to execution.", ios: "A" },
-      { text: "Assess whether conditions are right before moving forward.", ios: "AD" },
-      { text: "Identify what's structurally weak and correct it before proceeding.", ios: "B" }
+      { text: "Proceed carefully and note concerns.", ios: "S" },
+      { text: "Move forward and improve it.", ios: "M" },
+      { text: "Push for more refinement first.", ios: "A" },
+      { text: "Check whether conditions are right.", ios: "AD" },
+      { text: "Strengthen the weak parts before acting.", ios: "B" }
     ]
   },
   {
-    text: "The statement that most accurately describes your orientation toward progress is:",
+    text: "Which statement about progress feels most true to you?",
     options: [
-      { text: "Sustainable progress requires a stable foundation.", ios: "S" },
-      { text: "Progress is produced by consistent forward movement.", ios: "M" },
-      { text: "Progress without understanding is structural risk.", ios: "A" },
-      { text: "Progress that ignores context tends to produce new problems.", ios: "AD" },
-      { text: "Progress is a function of iterative structural improvement.", ios: "B" }
+      { text: "Progress needs stability underneath it.", ios: "S" },
+      { text: "Progress comes from consistent movement.", ios: "M" },
+      { text: "Progress without understanding is risky.", ios: "A" },
+      { text: "Progress without context creates problems.", ios: "AD" },
+      { text: "Progress comes from improving structure.", ios: "B" }
     ]
   }
 ];
