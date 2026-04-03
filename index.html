@@ -1,355 +1,1060 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap');
-*{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#E8E4DC;--ink:#1D1C17;--muted:#6B6B6B;--accent:#A89A6F;
-  --accent-light:rgba(168,154,111,0.15);--accent-line:rgba(168,154,111,0.25);
-  --r:2px;
-}
-#root{font-family:'Public Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:600px}
-.page{display:none;max-width:700px;margin:0 auto;padding:48px 32px}
-.page.on{display:block}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-/* INTRO */
-.hl-stamp{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:40px;padding-bottom:16px;border-bottom:1px solid var(--accent-line)}
-.hl-title{font-family:'EB Garamond',Georgia,serif;font-size:38px;font-weight:400;line-height:1.2;color:var(--ink);margin-bottom:10px}
-.hl-subtitle{font-size:13px;color:var(--muted);letter-spacing:.06em;margin-bottom:36px}
-.hl-desc{font-size:14px;color:var(--muted);line-height:1.75;max-width:520px;margin-bottom:40px}
-.hl-meta{display:flex;gap:40px;margin-bottom:44px;padding-top:24px;border-top:1px solid var(--accent-line)}
-.hl-meta-item{display:flex;flex-direction:column;gap:4px}
-.hl-meta-val{font-size:20px;font-weight:500;color:var(--ink)}
-.hl-meta-lbl{font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase}
-.btn{display:inline-block;background:var(--ink);color:#fff;border:none;padding:13px 32px;font-family:'Public Sans',sans-serif;font-size:12px;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border-radius:var(--r);transition:opacity .18s;font-weight:500}
-.btn:hover{opacity:.82}
-.hl-footer-stamp{font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent);margin-top:44px;padding-top:16px;border-top:1px solid var(--accent-line)}
+  :root {
+    --bg: #E8E4DC;
+    --text: #1D1C17;
+    --secondary: #6B6B6B;
+    --accent: #A89A6F;
+    --btn-bg: #1D1C17;
+    --btn-text: #ffffff;
+    --divider: rgba(29,28,23,0.12);
+  }
 
-/* QUESTION */
-.q-topbar{height:2px;background:var(--accent-light);margin-bottom:44px;position:relative;overflow:hidden;border-radius:1px}
-.q-fill{height:100%;background:var(--accent);border-radius:1px;transition:width .35s ease}
-.q-eyebrow{font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:20px}
-.q-text{font-family:'EB Garamond',Georgia,serif;font-size:24px;font-weight:400;line-height:1.45;color:var(--ink);margin-bottom:36px}
-.q-cards{display:flex;flex-direction:column;gap:8px}
-.q-card{background:transparent;border:1px solid var(--accent-line);padding:15px 18px;text-align:left;cursor:pointer;border-radius:var(--r);font-family:'Public Sans',sans-serif;font-size:14px;color:var(--ink);line-height:1.55;transition:border-color .15s,background .15s;display:flex;gap:14px;align-items:center}
-.q-card:hover{border-color:var(--accent);background:var(--accent-light)}
-.q-card.sel{border-color:var(--ink);background:rgba(29,28,23,.06)}
-.q-letter{font-size:10px;letter-spacing:.1em;color:var(--accent);font-weight:600;min-width:12px;flex-shrink:0}
-.q-back{background:none;border:none;font-family:'Public Sans',sans-serif;font-size:12px;color:var(--muted);cursor:pointer;padding:10px 0;letter-spacing:.06em;margin-top:28px;display:block}
-.q-back:hover{color:var(--ink)}
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Public Sans', sans-serif;
+    font-weight: 400;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px 60px;
+  }
 
-/* RESULT */
-.r-header{padding-bottom:28px;margin-bottom:32px;border-bottom:1px solid var(--accent-line)}
-.r-eyebrow{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:16px}
-.r-name{font-family:'EB Garamond',Georgia,serif;font-size:52px;font-weight:400;color:var(--ink);line-height:1;margin-bottom:10px}
-.r-code{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}
-.r-section{font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);margin-bottom:14px;margin-top:32px}
-.r-summary{font-family:'EB Garamond',Georgia,serif;font-size:18px;line-height:1.75;color:var(--ink);margin-bottom:4px}
-.r-signals{list-style:none;margin-top:4px}
-.r-signal{display:flex;gap:12px;padding:11px 0;border-bottom:1px solid var(--accent-line);font-size:13px;line-height:1.6;color:var(--ink);align-items:flex-start}
-.r-signal:last-child{border-bottom:none}
-.r-dot{width:5px;height:5px;background:var(--accent);border-radius:50%;margin-top:7px;flex-shrink:0}
-.r-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px}
-.r-box{border:1px solid var(--accent-line);padding:18px;border-radius:var(--r)}
-.r-box-lbl{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
-.r-box-txt{font-size:13px;line-height:1.65;color:var(--ink)}
-.r-secondary-block{background:rgba(29,28,23,.04);border-left:2px solid var(--accent);padding:18px 22px;margin-top:4px;border-radius:0 var(--r) var(--r) 0}
-.r-secondary-name{font-family:'EB Garamond',Georgia,serif;font-size:22px;color:var(--ink);margin-bottom:5px}
-.r-secondary-code{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:10px}
-.r-interaction{font-size:13px;font-style:italic;color:var(--muted);line-height:1.6}
+  .instrument-label {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    padding: 22px 0 20px;
+    text-align: center;
+  }
 
-.r-footer{margin-top:40px;padding:28px;border:1px solid var(--accent-line);border-radius:var(--r);background:rgba(168,154,111,.06)}
-.r-footer-text{font-size:13px;line-height:1.75;color:var(--ink);margin-bottom:16px}
-.r-footer-list{list-style:none;margin-bottom:24px}
-.r-footer-list li{font-size:12px;color:var(--muted);padding:5px 0;padding-left:16px;position:relative;line-height:1.5}
-.r-footer-list li::before{content:'·';position:absolute;left:0;color:var(--accent);font-size:16px;top:3px}
-.r-cta-section{margin-top:32px}
-.r-email-section{margin-top:36px;padding-top:28px;border-top:1px solid var(--accent-line)}
-.r-email-headline{font-size:14px;font-weight:500;color:var(--ink);margin-bottom:6px}
-.r-email-desc{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:16px}
-.email-row{display:flex;gap:8px}
-.email-input{flex:1;border:1px solid var(--accent-line);background:transparent;padding:12px 14px;font-family:'Public Sans',sans-serif;font-size:13px;color:var(--ink);border-radius:var(--r);outline:none;transition:border-color .15s}
-.email-input:focus{border-color:var(--accent)}
-.email-input::placeholder{color:var(--muted)}
-.btn-sm{padding:12px 20px;font-size:11px}
-.score-row{display:flex;align-items:center;gap:10px;margin-bottom:7px}
-.score-lbl{font-size:11px;color:var(--muted);width:76px;flex-shrink:0}
-.score-track{flex:1;background:rgba(168,154,111,.15);height:4px;border-radius:2px;overflow:hidden}
-.score-bar{background:var(--accent);height:100%;border-radius:2px;transition:width .7s ease}
-.score-num{font-size:11px;color:var(--ink);font-weight:500;width:18px;text-align:right}
-.dominance-tag{display:inline-block;font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:3px 10px;border:1px solid var(--accent-line);border-radius:20px;color:var(--accent);margin-bottom:20px}
+  .container {
+    width: 100%;
+    max-width: 700px;
+  }
+
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  /* INTRO */
+  .intro-header {
+    border-top: 1px solid var(--text);
+    border-bottom: 1px solid var(--divider);
+    padding: 36px 0 32px;
+    margin-bottom: 40px;
+  }
+
+  .intro-title {
+    font-family: Georgia, serif;
+    font-size: 28px;
+    font-weight: normal;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  .intro-sub {
+    font-size: 13px;
+    color: var(--secondary);
+    letter-spacing: 0.04em;
+  }
+
+  .intro-body {
+    font-size: 14px;
+    line-height: 1.8;
+    color: var(--secondary);
+    margin-bottom: 36px;
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--divider);
+    margin-bottom: 40px;
+  }
+
+  .spec-item {
+    padding: 18px 20px;
+    border-right: 1px solid var(--divider);
+  }
+  .spec-item:last-child { border-right: none; }
+
+  .spec-label {
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+
+  .spec-value {
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  /* QUESTIONS */
+  .progress-bar-wrap {
+    height: 2px;
+    background: var(--divider);
+    margin-bottom: 36px;
+    position: relative;
+  }
+
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--text);
+    transition: width 0.4s ease;
+  }
+
+  .q-counter {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 28px;
+  }
+
+  .q-text {
+    font-family: Georgia, serif;
+    font-size: 19px;
+    font-weight: normal;
+    line-height: 1.5;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .options { display: flex; flex-direction: column; gap: 10px; }
+
+  .option {
+    border: 1px solid var(--divider);
+    padding: 16px 20px;
+    cursor: pointer;
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.5;
+    transition: border-color 0.15s, background 0.15s;
+    background: transparent;
+    text-align: left;
+    width: 100%;
+  }
+
+  .option:hover { border-color: var(--accent); }
+  .option.selected { border-color: var(--text); background: rgba(29,28,23,0.05); }
+
+  .nav-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 36px;
+    padding-top: 28px;
+    border-top: 1px solid var(--divider);
+  }
+
+  /* RESULTS */
+  .result-instrument {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 28px;
+    padding-top: 36px;
+    border-top: 1px solid var(--text);
+  }
+
+  .result-label-sm {
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .result-pattern-name {
+    font-family: Georgia, serif;
+    font-size: 52px;
+    font-weight: normal;
+    letter-spacing: -0.02em;
+    color: var(--text);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+
+  .result-ios-code {
+    font-size: 12px;
+    letter-spacing: 0.12em;
+    color: var(--secondary);
+    margin-bottom: 4px;
+  }
+
+  .result-tagline {
+    font-family: Georgia, serif;
+    font-size: 18px;
+    color: var(--accent);
+    font-style: italic;
+    margin: 20px 0 8px;
+  }
+
+  .result-priority-note {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    margin-bottom: 40px;
+  }
+
+  .divider { border: none; border-top: 1px solid var(--divider); margin: 36px 0; }
+
+  .section-label {
+    font-size: 9px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 14px;
+  }
+
+  .body-text {
+    font-size: 14px;
+    line-height: 1.85;
+    color: var(--secondary);
+  }
+
+  .signals { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .signals li {
+    font-size: 14px;
+    color: var(--secondary);
+    padding-left: 16px;
+    position: relative;
+    line-height: 1.6;
+  }
+  .signals li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+
+  .orient-list { list-style: none; display: flex; flex-direction: column; gap: 8px; }
+  .orient-list li {
+    font-size: 13px;
+    color: var(--secondary);
+    padding-left: 16px;
+    position: relative;
+  }
+  .orient-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 18px;
+    top: -2px;
+  }
+
+  .secondary-block {
+    background: rgba(29,28,23,0.04);
+    border: 1px solid var(--divider);
+    padding: 24px;
+    margin-top: 8px;
+  }
+
+  .secondary-pattern-name {
+    font-family: Georgia, serif;
+    font-size: 22px;
+    font-weight: normal;
+    color: var(--text);
+    margin-bottom: 4px;
+  }
+
+  .secondary-ios {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+
+  .influence-list { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
+  .influence-list li {
+    font-size: 13px;
+    color: var(--secondary);
+    padding-left: 16px;
+    position: relative;
+  }
+  .influence-list li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 18px;
+    top: -2px;
+  }
+
+  .distribution-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--divider);
+    font-size: 13px;
+  }
+  .distribution-row:first-child { border-top: 1px solid var(--divider); }
+  .dist-name { color: var(--text); }
+  .dist-level { color: var(--secondary); font-size: 12px; letter-spacing: 0.06em; }
+  .dist-dominant { color: var(--accent); font-weight: 500; }
+
+  .snapshot-footer {
+    background: rgba(29,28,23,0.04);
+    border: 1px solid var(--divider);
+    padding: 28px;
+    margin-top: 40px;
+  }
+  .snapshot-footer .section-label { margin-bottom: 16px; }
+  .snapshot-footer p { font-size: 13px; color: var(--secondary); line-height: 1.7; margin-bottom: 12px; }
+  .snapshot-footer p:last-child { margin-bottom: 0; }
+  .snapshot-footer ul { list-style: none; margin-top: 10px; }
+  .snapshot-footer ul li {
+    font-size: 13px;
+    color: var(--secondary);
+    padding-left: 16px;
+    position: relative;
+    margin-bottom: 6px;
+  }
+  .snapshot-footer ul li::before {
+    content: '·';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 18px;
+    top: -2px;
+  }
+
+  /* CTA */
+  .cta-section { margin-top: 40px; text-align: center; }
+
+  .btn-primary {
+    display: inline-block;
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    font-family: 'Public Sans', sans-serif;
+    font-size: 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: none;
+    padding: 16px 36px;
+    cursor: pointer;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .email-section {
+    border: 1px solid var(--divider);
+    padding: 32px;
+    margin-top: 40px;
+  }
+  .email-section-title {
+    font-family: Georgia, serif;
+    font-size: 17px;
+    font-weight: normal;
+    margin-bottom: 10px;
+  }
+  .email-section p { font-size: 13px; color: var(--secondary); line-height: 1.7; margin-bottom: 20px; }
+
+  .email-row { display: flex; gap: 0; }
+  .email-input {
+    flex: 1;
+    border: 1px solid var(--divider);
+    border-right: none;
+    background: transparent;
+    padding: 13px 16px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 13px;
+    color: var(--text);
+    outline: none;
+  }
+  .email-input::placeholder { color: var(--secondary); }
+  .email-input:focus { border-color: var(--accent); }
+
+  .btn-email {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: 1px solid var(--btn-bg);
+    padding: 13px 22px;
+    font-family: 'Public Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: opacity 0.15s;
+  }
+  .btn-email:hover { opacity: 0.85; }
+
+  .extended-block {
+    display: none;
+    border: 1px solid var(--divider);
+    padding: 28px;
+    margin-top: 24px;
+    background: rgba(29,28,23,0.03);
+  }
+  .extended-block.visible { display: block; }
+  .extended-block .section-label { margin-bottom: 14px; }
+
+  .footer-note {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    text-align: center;
+    padding-top: 48px;
+  }
+
+  @media (max-width: 500px) {
+    .result-pattern-name { font-size: 38px; }
+    .specs { grid-template-columns: 1fr; }
+    .spec-item { border-right: none; border-bottom: 1px solid var(--divider); }
+    .spec-item:last-child { border-bottom: none; }
+    .email-row { flex-direction: column; }
+    .email-input { border-right: 1px solid var(--divider); border-bottom: none; }
+  }
 </style>
+</head>
+<body>
 
-<div id="root">
+<div class="instrument-label">Human Lab Structural Identity Instrument</div>
 
-<!-- INTRO -->
-<div class="page on" id="pg-intro">
-  <div class="hl-stamp">Human Lab Structural Identity Instrument</div>
-  <h1 class="hl-title">Internal Operating<br>System Snapshot</h1>
-  <div class="hl-subtitle">IOS-5 Classification Model</div>
-  <p class="hl-desc">A structural diagnostic that identifies your dominant Internal Operating System and secondary influence pattern. This is not a personality assessment. It maps the behavioural architecture through which you process, decide, and operate.</p>
-  <div class="hl-meta">
-    <div class="hl-meta-item"><span class="hl-meta-val">15</span><span class="hl-meta-lbl">Questions</span></div>
-    <div class="hl-meta-item"><span class="hl-meta-val">3–5</span><span class="hl-meta-lbl">Minutes</span></div>
-    <div class="hl-meta-item"><span class="hl-meta-val">5</span><span class="hl-meta-lbl">Patterns</span></div>
-  </div>
-  <button class="btn" onclick="start()">Begin Diagnostic</button>
-  <div class="hl-footer-stamp">Human Lab IOS-5 Classification Model</div>
-</div>
+<div class="container">
 
-<!-- QUESTION -->
-<div class="page" id="pg-question">
-  <div class="q-topbar"><div class="q-fill" id="q-fill"></div></div>
-  <div class="q-eyebrow" id="q-eyebrow">Question 1 of 15</div>
-  <div class="q-text" id="q-text"></div>
-  <div class="q-cards" id="q-cards"></div>
-  <button class="q-back" id="q-back" onclick="goBack()">← Previous question</button>
-  <div class="hl-footer-stamp" style="margin-top:40px">Human Lab IOS-5 Classification Model</div>
-</div>
-
-<!-- RESULT -->
-<div class="page" id="pg-result">
-  <div class="hl-stamp">Human Lab Structural Identity Instrument</div>
-  <div class="r-header">
-    <div class="r-eyebrow">Your Dominant Internal Operating System</div>
-    <div class="r-name" id="r-name"></div>
-    <div class="r-code" id="r-code"></div>
-  </div>
-  <div class="dominance-tag" id="r-dominance"></div>
-
-  <div class="r-section">Pattern Overview</div>
-  <div class="r-summary" id="r-summary"></div>
-
-  <div class="r-section">Recognition Signals</div>
-  <ul class="r-signals" id="r-signals"></ul>
-
-  <div class="r-section">Structural Profile</div>
-  <div class="r-pair">
-    <div class="r-box"><div class="r-box-lbl">Structural Strength</div><div class="r-box-txt" id="r-strength"></div></div>
-    <div class="r-box"><div class="r-box-lbl">Structural Constraint</div><div class="r-box-txt" id="r-constraint"></div></div>
-  </div>
-
-  <div class="r-section">Secondary Influence Pattern</div>
-  <div class="r-secondary-block">
-    <div class="r-secondary-name" id="r-sec-name"></div>
-    <div class="r-secondary-code" id="r-sec-code"></div>
-    <div class="r-interaction" id="r-interaction"></div>
-  </div>
-
-  <div class="r-section">Score Distribution</div>
-  <div id="r-scores"></div>
-
-  <div class="r-footer">
-    <div class="r-footer-text">Your Structural Snapshot identifies your dominant pattern.<br>Most people are not one pattern. They are an interaction of behavioural systems.<br><br>Your full Human Lab Structural Diagnostic reveals:</div>
-    <ul class="r-footer-list">
-      <li>your stress response pattern</li>
-      <li>your adaptation structure</li>
-      <li>your decision architecture</li>
-      <li>your growth constraints</li>
-      <li>your secondary operating systems</li>
-    </ul>
-    <div class="r-cta-section">
-      <button class="btn">Unlock Full Structural Diagnostic</button>
+  <!-- INTRO SCREEN -->
+  <div class="screen active" id="screen-intro">
+    <div class="intro-header">
+      <div class="intro-title">Internal Operating System<br>Snapshot</div>
+      <div class="intro-sub">Human Lab IOS-5 Classification · v1.3</div>
     </div>
-    <div class="r-email-section">
-      <div class="r-email-headline">Map your deeper internal structure</div>
-      <div class="r-email-desc">Your Internal Operating System is only your dominant pattern. Receive deeper Human Lab insights and extended structural observations.</div>
-      <div class="email-row">
-        <input class="email-input" type="email" placeholder="Your email address" id="email-input"/>
-        <button class="btn btn-sm" onclick="submitEmail()">Send my extended insights</button>
+
+    <p class="intro-body">
+      This instrument identifies how you naturally organise thinking, reactions, and behavioural decisions. It maps your dominant internal operating system — the structural pattern underlying how you process, respond, and act.<br><br>
+      Select the response that most accurately reflects your default behaviour. Not your ideal. Not your aspiration. Your default.
+    </p>
+
+    <div class="specs">
+      <div class="spec-item">
+        <div class="spec-label">Questions</div>
+        <div class="spec-value">15</div>
       </div>
-      <div id="email-confirm" style="font-size:12px;color:var(--accent);margin-top:10px;display:none;letter-spacing:.06em">Confirmed. Extended insights will be sent shortly.</div>
+      <div class="spec-item">
+        <div class="spec-label">Duration</div>
+        <div class="spec-value">3–5 min</div>
+      </div>
+      <div class="spec-item">
+        <div class="spec-label">Result</div>
+        <div class="spec-value">Immediate</div>
+      </div>
+    </div>
+
+    <button class="btn-primary" onclick="startAssessment()">Begin Classification</button>
+
+    <div class="footer-note" style="margin-top:36px;">Human Lab IOS-5 Classification Model</div>
+  </div>
+
+  <!-- QUESTION SCREEN -->
+  <div class="screen" id="screen-question">
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="progress-bar"></div>
+    </div>
+    <div class="q-counter" id="q-counter">Question 1 of 15</div>
+    <div class="q-text" id="q-text"></div>
+    <div class="options" id="options-list"></div>
+    <div class="nav-row">
+      <button class="btn-primary" id="next-btn" style="width:auto;padding:14px 32px;" onclick="nextQuestion()">Continue</button>
     </div>
   </div>
-  <div style="margin-top:24px">
-    <button class="q-back" onclick="restart()" style="display:inline">← Retake assessment</button>
+
+  <!-- RESULT SCREEN -->
+  <div class="screen" id="screen-result">
+    <div class="result-instrument">Human Lab · IOS-5 Classification Instrument</div>
+
+    <div class="result-label-sm">Your Dominant Internal Operating System</div>
+    <div class="result-pattern-name" id="r-name"></div>
+    <div class="result-ios-code" id="r-code"></div>
+    <div class="result-ios-code" style="margin-bottom:0;">Human Lab IOS-5 Classification</div>
+    <div class="result-tagline" id="r-tagline"></div>
+    <div class="result-priority-note">Dominant pattern determined by priority behavioural indicators</div>
+
+    <hr class="divider">
+
+    <div class="section-label">Pattern Overview</div>
+    <p class="body-text" id="r-overview"></p>
+
+    <hr class="divider">
+
+    <div class="section-label">Recognition Signals</div>
+    <ul class="signals" id="r-signals"></ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Structural Orientation</div>
+    <p class="body-text" style="margin-bottom:14px;">Your structure tends to prioritise:</p>
+    <ul class="orient-list" id="r-orientation"></ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Structural Strength</div>
+    <p class="body-text" id="r-strength"></p>
+
+    <hr class="divider">
+
+    <div class="section-label">Structural Constraint</div>
+    <p class="body-text" id="r-constraint"></p>
+
+    <hr class="divider">
+
+    <div class="section-label">Stress Response Pattern</div>
+    <p class="body-text" id="r-stress"></p>
+
+    <hr class="divider">
+
+    <div class="section-label">Secondary Structural Influence</div>
+    <div class="secondary-block">
+      <div class="secondary-pattern-name" id="r-sec-name"></div>
+      <div class="secondary-ios" id="r-sec-code"></div>
+      <p class="body-text" id="r-sec-interaction"></p>
+    </div>
+
+    <hr class="divider">
+
+    <div class="section-label">Structural Interaction Observation</div>
+    <p class="body-text" id="r-interaction-obs"></p>
+
+    <hr class="divider">
+
+    <div class="section-label">Influence Indicators</div>
+    <p class="body-text" style="margin-bottom:14px;">This structural combination often influences how you:</p>
+    <ul class="influence-list">
+      <li>respond to pressure</li>
+      <li>make decisions</li>
+      <li>manage change</li>
+      <li>evaluate progress</li>
+    </ul>
+
+    <hr class="divider">
+
+    <div class="section-label">Pattern Distribution</div>
+    <div id="r-distribution"></div>
+
+    <div class="snapshot-footer">
+      <div class="section-label">Structural Snapshot</div>
+      <p>Your Structural Snapshot identifies your dominant pattern.</p>
+      <p>Most individuals are not one pattern. They are an interaction of behavioural systems.</p>
+      <p>This snapshot identifies structure. The full diagnostic maps interaction.</p>
+      <p>Your full Human Lab Structural Diagnostic reveals:
+        <ul>
+          <li>your stress response pattern</li>
+          <li>your adaptation structure</li>
+          <li>your decision architecture</li>
+          <li>your growth constraints</li>
+          <li>your secondary operating systems</li>
+        </ul>
+      </p>
+    </div>
+
+    <div class="cta-section" style="margin-top:40px;">
+      <a href="#" class="btn-primary">Access Full Structural Mapping</a>
+    </div>
+
+    <hr class="divider">
+
+    <div class="email-section">
+      <div class="email-section-title">Receive your extended structural observation</div>
+      <p>Your Internal Operating System identifies your dominant structure. Your extended Human Lab observation reveals one deeper behavioural interaction within your internal system.</p>
+      <div class="email-row">
+        <input type="email" class="email-input" id="email-input" placeholder="Your email address">
+        <button class="btn-email" onclick="submitEmail()">Send my extended insights</button>
+      </div>
+    </div>
+
+    <div class="extended-block" id="extended-block">
+      <div class="section-label">Extended Structural Observation</div>
+      <p class="body-text" id="r-extended"></p>
+      <hr class="divider">
+      <p class="body-text" style="margin-bottom:20px;">Your Internal Operating System is one layer of your structure. Your full Human Lab Diagnostic maps the complete behavioural architecture.</p>
+      <a href="#" class="btn-primary">Access Full Structural Mapping</a>
+    </div>
+
+    <div class="footer-note" style="margin-top:48px;">Human Lab IOS-5 Classification Model</div>
   </div>
-  <div class="hl-footer-stamp">Human Lab IOS-5 Classification Model</div>
-</div>
 
 </div>
 
 <script>
-const Qs=[
-  {q:"When facing uncertainty you usually:",opts:["Look for what feels secure","Decide quickly and move","Think through possibilities","Adjust as things unfold","Try to improve your approach"]},
-  {q:"When something disrupts your plans you first:",opts:["Try to regain control","Push forward anyway","Try to understand why","Adjust expectations","Look for a better way"]},
-  {q:"When making a personal decision you rely most on:",opts:["What feels stable","What moves life forward","What makes sense logically","What fits the situation","What will work best long term"]},
-  {q:"When you feel overwhelmed you tend to:",opts:["Try to simplify things","Increase effort","Withdraw to think","Regulate your internal state","Reorganize your approach"]},
-  {q:"What makes you feel most internally settled:",opts:["Predictability","Progress","Understanding","Connection","Improvement"]},
-  {q:"When you make mistakes you usually:",opts:["Try to prevent repeat risk","Try again quickly","Reflect deeply","Forgive yourself and adjust","Improve your method"]},
-  {q:"Your natural response to change is:",opts:["Cautious acceptance","Move toward it","Study it first","Adapt gradually","Try to shape it"]},
-  {q:"You feel most uncomfortable when:",opts:["Things feel unstable","You feel stuck","Things don't make sense","Relationships feel strained","Things feel inefficient"]},
-  {q:"When you feel pressure internally you:",opts:["Try to create calm","Push yourself harder","Think more","Stabilize your internal state","Try to optimize behaviour"]},
-  {q:"Your attention naturally goes to:",opts:["What could go wrong","What could be achieved","What patterns exist","How people feel","How things function"]},
-  {q:"When you reflect on your life you focus on:",opts:["Security","Achievement","Understanding yourself","Relational stability","Growth"]},
-  {q:"When something feels off in your life you:",opts:["Try to restore balance","Take action","Analyse the cause","Adjust behaviour","Change the system"]},
-  {q:"Your internal motivation comes mostly from:",opts:["Feeling safe","Moving forward","Making sense of things","Feeling connected","Making things better"]},
-  {q:"When you enter new situations you usually:",opts:["Assess safety","Look for opportunity","Observe quietly","Read the atmosphere","Notice structure"]},
-  {q:"If life feels stuck your instinct is to:",opts:["Strengthen foundations","Create movement","Gain insight","Change approach","Redesign direction"]}
+const QUESTIONS = [
+  {
+    text: "When beginning a significant project, your first instinct is to:",
+    options: [
+      { text: "Identify the risks and establish clear parameters before proceeding.", ios: "S" },
+      { text: "Determine the fastest route to initial momentum.", ios: "M" },
+      { text: "Map all variables and understand the full scope of what's involved.", ios: "A" },
+      { text: "Assess who's involved and how the work will affect them.", ios: "AD" },
+      { text: "Design the structural framework that will make execution efficient.", ios: "B" }
+    ]
+  },
+  {
+    text: "When an agreed plan changes unexpectedly, your immediate internal response is:", // Q2 - weighted 1.5
+    options: [
+      { text: "A heightened need to understand the risks introduced by the change.", ios: "S" },
+      { text: "Rapid recalibration toward the next point of forward movement.", ios: "M" },
+      { text: "A need to analyse why the change occurred and what it signals.", ios: "A" },
+      { text: "A scan of how the change is landing for the people involved.", ios: "AD" },
+      { text: "An immediate assessment of what needs to be restructured.", ios: "B" }
+    ]
+  },
+  {
+    text: "When evaluating a new opportunity, you are primarily drawn to:",
+    options: [
+      { text: "Its reliability and long-term viability.", ios: "S" },
+      { text: "How quickly it can generate tangible progress.", ios: "M" },
+      { text: "The logic behind it and whether the evidence supports it.", ios: "A" },
+      { text: "How it fits within the broader context of current priorities.", ios: "AD" },
+      { text: "Whether it can be built into a repeatable, scalable process.", ios: "B" }
+    ]
+  },
+  {
+    text: "Others most consistently describe your approach to problems as:",
+    options: [
+      { text: "Measured and careful.", ios: "S" },
+      { text: "Direct and action-oriented.", ios: "M" },
+      { text: "Thorough and precise.", ios: "A" },
+      { text: "Responsive and context-aware.", ios: "AD" },
+      { text: "Systematic and improvement-focused.", ios: "B" }
+    ]
+  },
+  {
+    text: "When a decision must be made without complete information, you tend to:",
+    options: [
+      { text: "Delay until sufficient data is available to reduce uncertainty.", ios: "S" },
+      { text: "Make the call and adjust based on what follows.", ios: "M" },
+      { text: "Identify what information would be most critical and pursue it first.", ios: "A" },
+      { text: "Consider the positions of others before forming your view.", ios: "AD" },
+      { text: "Establish a decision framework to guide the process.", ios: "B" }
+    ]
+  },
+  {
+    text: "When you observe dysfunction in a process or system, you instinctively:", // Q6 - weighted 1.5
+    options: [
+      { text: "Flag the risk it presents before acting.", ios: "S" },
+      { text: "Move to fix it immediately.", ios: "M" },
+      { text: "Diagnose the root cause before intervening.", ios: "A" },
+      { text: "Consider who it is affecting and how they are experiencing it.", ios: "AD" },
+      { text: "Design a structural solution that prevents recurrence.", ios: "B" }
+    ]
+  },
+  {
+    text: "The type of environment where you produce your best work is one that:",
+    options: [
+      { text: "Has consistent structure and predictable expectations.", ios: "S" },
+      { text: "Allows for rapid iteration and visible forward movement.", ios: "M" },
+      { text: "Prioritises depth, accuracy, and intellectual rigour.", ios: "A" },
+      { text: "Is responsive to shifting needs and values open communication.", ios: "AD" },
+      { text: "Rewards improvement and the refinement of how things operate.", ios: "B" }
+    ]
+  },
+  {
+    text: "When collaborating with others, the dynamic you most naturally create is:",
+    options: [
+      { text: "Stability — others know what to expect from you.", ios: "S" },
+      { text: "Momentum — you generate forward energy in the group.", ios: "M" },
+      { text: "Clarity — you surface what others may have overlooked.", ios: "A" },
+      { text: "Cohesion — you adjust to maintain productive relationships.", ios: "AD" },
+      { text: "Efficiency — you identify what can be improved in how the group operates.", ios: "B" }
+    ]
+  },
+  {
+    text: "When reviewing past performance, you are primarily focused on:",
+    options: [
+      { text: "Whether outcomes were consistent with what was expected.", ios: "S" },
+      { text: "How much progress was achieved against targets.", ios: "M" },
+      { text: "Understanding what worked, what didn't, and exactly why.", ios: "A" },
+      { text: "How the process was experienced by those involved.", ios: "AD" },
+      { text: "What structural improvements could increase future performance.", ios: "B" }
+    ]
+  },
+  {
+    text: "Under elevated pressure, the behaviour others observe in you most often is:",
+    options: [
+      { text: "Increased caution and a tighter focus on managing risk.", ios: "S" },
+      { text: "Intensified activity and reduced tolerance for delays.", ios: "M" },
+      { text: "More rigorous analysis and a reluctance to act without clarity.", ios: "A" },
+      { text: "Heightened attention to the dynamics of those around you.", ios: "AD" },
+      { text: "A sustained drive to identify and correct what's not working.", ios: "B" }
+    ]
+  },
+  {
+    text: "When a proposed solution is structurally sound but feels wrong, you:",
+    options: [
+      { text: "Trust the structure and proceed, noting any risk factors.", ios: "S" },
+      { text: "Implement it and refine based on outcome.", ios: "M" },
+      { text: "Continue evaluating until the feeling is resolved by evidence.", ios: "A" },
+      { text: "Use the feeling as data and examine what it might indicate.", ios: "AD" },
+      { text: "Redesign the solution until both elements are aligned.", ios: "B" }
+    ]
+  },
+  {
+    text: "Your most consistent point of friction in collaborative settings is:", // Q12 - weighted 1.5
+    options: [
+      { text: "Others moving faster than the risk landscape warrants.", ios: "S" },
+      { text: "Processes that slow momentum without adding proportionate value.", ios: "M" },
+      { text: "Decisions made without sufficient analysis or evidence.", ios: "A" },
+      { text: "Environments that prioritise outcomes over the quality of relationships.", ios: "AD" },
+      { text: "Systems that continue operating inefficiently despite available improvements.", ios: "B" }
+    ]
+  },
+  {
+    text: "The characteristic others most often observe in your decision-making is:",
+    options: [
+      { text: "Deliberateness — you rarely act without considered reasoning.", ios: "S" },
+      { text: "Decisiveness — you move to resolution without prolonged hesitation.", ios: "M" },
+      { text: "Precision — you are attentive to what others may not have considered.", ios: "A" },
+      { text: "Contextual sensitivity — you factor in dimensions others might miss.", ios: "AD" },
+      { text: "Structural clarity — you design decisions rather than simply make them.", ios: "B" }
+    ]
+  },
+  {
+    text: "When asked to act on something you consider under-developed, you:",
+    options: [
+      { text: "Proceed cautiously, documenting concerns for the record.", ios: "S" },
+      { text: "Act and improve iteratively as results emerge.", ios: "M" },
+      { text: "Push to refine further before committing to execution.", ios: "A" },
+      { text: "Assess whether conditions are right before moving forward.", ios: "AD" },
+      { text: "Identify what's structurally weak and correct it before proceeding.", ios: "B" }
+    ]
+  },
+  {
+    text: "The statement that most accurately describes your orientation toward progress is:",
+    options: [
+      { text: "Sustainable progress requires a stable foundation.", ios: "S" },
+      { text: "Progress is produced by consistent forward movement.", ios: "M" },
+      { text: "Progress without understanding is structural risk.", ios: "A" },
+      { text: "Progress that ignores context tends to produce new problems.", ios: "AD" },
+      { text: "Progress is a function of iterative structural improvement.", ios: "B" }
+    ]
+  }
 ];
 
-const MAP=['S','M','A','AD','B'];
-const NAMES={S:'Stabilizer',M:'Mover',A:'Analyzer',AD:'Adapter',B:'Builder'};
-const CODES={S:'IOS-S',M:'IOS-M',A:'IOS-A',AD:'IOS-AD',B:'IOS-B'};
-const FOCUS={S:'Stability, predictability, responsibility, risk awareness',M:'Progress, forward movement, momentum, initiative',A:'Understanding, logic, depth thinking, pattern recognition',AD:'Flexibility, emotional awareness, situational adjustment',B:'Systems improvement, optimisation, long-term function'};
+const WEIGHTED_QUESTIONS = [1, 5, 11]; // 0-indexed: Q2, Q6, Q12
 
-const DATA={
-  S:{
-    summary:"The Stabilizer pattern operates through a primary orientation toward security and predictability. Your internal system monitors for risk, instability, and deviation from expected parameters. This produces consistent reliability and a capacity to hold structure when conditions become uncertain. The pattern is defined by responsibility over impulse and caution over reaction.",
-    signals:["You instinctively identify what could go wrong before others register a problem","You prefer to have the full picture before committing to a direction","You are more affected by sudden change than others appear to be","You carry a heightened sense of responsibility in roles you occupy","Uncertainty produces internal tension that resolves slowly, not quickly"],
-    strength:"Structural reliability under pressure. The Stabilizer pattern generates environments others can depend on — particularly in conditions requiring sustained performance and risk management.",
-    constraint:"The same system that produces stability can create resistance to necessary change. Risk awareness can extend beyond functional caution into avoidance of uncertainty that is, in reality, manageable."
+const PATTERNS = {
+  S: {
+    name: "Stabilizer",
+    code: "IOS-S Classification",
+    tagline: "Stability is how you create control",
+    overview: "The Stabilizer pattern operates from a primary orientation toward predictability, structural reliability, and risk mitigation. This system processes decisions through a stability filter — evaluating options against their potential to introduce disorder or uncertainty. Where others see opportunity, this pattern sees exposure. Where others see delay, this pattern sees due diligence.",
+    signals: [
+      "You are consistently the person who surfaces what others haven't considered.",
+      "You track commitments — your own and others' — with precision.",
+      "Environments with unclear expectations require deliberate recalibration.",
+      "You experience discomfort when moving faster than your assessed risk threshold.",
+      "Your reliability creates a structural anchor for those around you."
+    ],
+    orientation: [
+      "Security before exposure",
+      "Predictability before change",
+      "Reliability before speed"
+    ],
+    strength: "This pattern produces consistent, dependable output in conditions others find destabilising. Its structural contribution is the ability to maintain function under pressure without sacrificing accuracy or accountability.",
+    constraint: "The tension inherent to this pattern is the tendency to treat uncertainty as risk rather than information. Extended evaluation cycles can create friction in environments where pace is required, and the avoidance of exposure can limit the range of outcomes the system is willing to generate.",
+    stress: "Under pressure this pattern increases risk monitoring and attempts to restore stability.",
+    extended: "Your Stabilizer pattern contains a secondary structural tension: your drive toward predictability can cause you to underestimate the cost of inaction. When systems feel unstable, the instinct to wait for clarity can itself become a source of structural delay — introducing the very exposure the pattern is designed to avoid."
   },
-  M:{
-    summary:"The Mover pattern operates through a primary orientation toward momentum and forward movement. Your internal system measures progress, responds to stagnation with increased energy, and defaults to action over analysis. This produces a capacity for initiative and rapid execution in conditions where speed of response matters. The pattern is defined by drive over deliberation.",
-    signals:["You become restless when progress has stalled or deliberation extends too long","You make decisions quickly, revising as new information arrives","You are energised by challenges that others approach with hesitation","Prolonged planning phases without visible movement are difficult to sustain","You measure environments by the degree to which they allow or obstruct movement"],
-    strength:"Momentum generation in conditions of inertia. The Mover pattern produces forward movement when systems are stalled, and maintains energy output in high-pressure environments that exhaust other patterns.",
-    constraint:"Speed of movement can compress the depth of evaluation. The same drive that produces decisive action can bypass information that would alter the direction of that action."
+  M: {
+    name: "Mover",
+    code: "IOS-M Classification",
+    tagline: "Movement is how you create progress",
+    overview: "The Mover pattern operates from a primary orientation toward forward action, momentum, and tangible progress. This system processes decisions through a velocity filter — evaluating options against their capacity to generate movement. Delay is experienced as a structural problem. Action, even imperfect action, is experienced as structural resolution.",
+    signals: [
+      "You generate energy and momentum in the environments you operate in.",
+      "Extended deliberation phases are experienced as friction, not value.",
+      "You have a measurable track record of initiating where others wait.",
+      "You adjust course mid-execution rather than pausing to recalibrate.",
+      "Others frequently describe you as a catalyst."
+    ],
+    orientation: [
+      "Movement before certainty",
+      "Progress before perfection",
+      "Action before extended evaluation"
+    ],
+    strength: "This pattern produces rapid output and sustained initiative in environments that reward decisiveness. Its structural contribution is the ability to break inertia and generate the forward momentum that converts planning into results.",
+    constraint: "The tension inherent to this pattern is the tendency to treat speed as a proxy for progress. Rapid movement can produce directional errors that require significant rework, and low tolerance for delay can create friction with systems that process more deliberately.",
+    stress: "Under pressure this pattern increases action intensity and reduces tolerance for delay.",
+    extended: "Your Mover pattern contains a secondary structural tension: the drive toward velocity can cause you to underestimate the cost of directional error. The instinct to maintain momentum can produce commitment to trajectories that a brief evaluation cycle would have redirected — at a lower total cost."
   },
-  A:{
-    summary:"The Analyzer pattern operates through a primary orientation toward understanding and pattern recognition. Your internal system seeks coherence — it identifies inconsistencies, tracks causal relationships, and does not settle for explanations that lack structural logic. This produces a capacity for depth analysis and accurate diagnosis in complex environments. The pattern is defined by precision over approximation.",
-    signals:["You are rarely satisfied with surface-level explanations of why something occurred","You identify inconsistencies in reasoning that others do not register","Decisions made without sufficient data produce significant internal resistance","You are more energised by complex problems than by straightforward execution","You track the logic structure of arguments and detect where it breaks down"],
-    strength:"Diagnostic precision in conditions of complexity. The Analyzer pattern identifies root causes, structural flaws, and non-obvious patterns that other operating systems miss or bypass.",
-    constraint:"The depth requirement can delay output. The same system that produces accurate diagnosis can produce extended evaluation cycles in environments that require faster decision thresholds."
+  A: {
+    name: "Analyzer",
+    code: "IOS-A Classification",
+    tagline: "Understanding is how you create clarity",
+    overview: "The Analyzer pattern operates from a primary orientation toward precision, logic, and depth processing. This system evaluates all inputs before committing to output. It maintains a persistent drive to understand before acting — and to act only when the evidence is coherent and the logic is sound. Incomplete information is experienced as structural exposure.",
+    signals: [
+      "You consistently identify factors that others have not accounted for.",
+      "You are rarely satisfied by surface-level explanations.",
+      "Your conclusions tend to be more durable because your evaluation is more rigorous.",
+      "You experience discomfort when required to commit without sufficient evidence.",
+      "Others frequently bring you complex problems precisely because of your processing depth."
+    ],
+    orientation: [
+      "Understanding before action",
+      "Precision before speed",
+      "Coherence before agreement"
+    ],
+    strength: "This pattern produces high-accuracy outputs in environments where precision matters. Its structural contribution is the identification of non-obvious variables, the prevention of premature conclusions, and the production of reasoning that holds under scrutiny.",
+    constraint: "The tension inherent to this pattern is the tendency to treat continued evaluation as structural progress. Extended analysis cycles can consume resources that execution would have recovered, and the pursuit of certainty in uncertain conditions can produce the delay it is designed to prevent.",
+    stress: "Under pressure this pattern increases evaluation before committing to action.",
+    extended: "Your Analyzer pattern contains a secondary structural tension: the drive toward understanding can obscure the point at which additional analysis produces diminishing returns. The system is calibrated to detect what is missing — which can make it structurally difficult to recognise when what is present is sufficient."
   },
-  AD:{
-    summary:"The Adapter pattern operates through a primary orientation toward situational and relational adjustment. Your internal system reads environmental and interpersonal cues with high sensitivity, recalibrating behaviour in response to what the situation presents. This produces a capacity for fluid navigation across different social and operational contexts. The pattern is defined by responsiveness over rigidity.",
-    signals:["You accurately read the emotional and relational dynamics in a room before others verbalise them","You instinctively adjust your communication approach based on who you are engaging","Environments with high interpersonal conflict produce significant internal cost","You notice when something is off in a relationship before it is made explicit","Fixed or formulaic approaches to situations feel structurally incorrect to you"],
-    strength:"Situational navigation in human complexity. The Adapter pattern creates connection and alignment across different contexts — particularly where relational attunement is the primary requirement for progress.",
-    constraint:"High situational responsiveness can produce inconsistency in self-presentation. The same system that enables fluid adjustment can obscure a stable internal position that others can orient around."
+  AD: {
+    name: "Adapter",
+    code: "IOS-AD Classification",
+    tagline: "Adjustment is how you maintain balance",
+    overview: "The Adapter pattern operates from a primary orientation toward contextual awareness, relational calibration, and situational adjustment. This system reads environments in real time and modifies its outputs accordingly. Where other patterns hold a fixed orientation, this pattern treats flexibility as structural intelligence.",
+    signals: [
+      "You are consistently accurate in reading what a situation or person requires.",
+      "You adjust your register and approach fluidly across different environments.",
+      "Others experience you as responsive without being reactive.",
+      "You are rarely the source of unnecessary interpersonal friction.",
+      "You track relational dynamics with precision most others don't register."
+    ],
+    orientation: [
+      "Alignment before assertion",
+      "Context before position",
+      "Balance before rigidity"
+    ],
+    strength: "This pattern produces high-quality outputs in environments that require relational intelligence, situational calibration, and the management of complex interpersonal dynamics. Its structural contribution is the ability to maintain productive function across highly variable conditions.",
+    constraint: "The tension inherent to this pattern is the tendency to prioritise contextual alignment at the cost of positional clarity. Consistent adjustment can make it difficult for others to identify where this pattern stands — and can make it difficult for the pattern itself to maintain a fixed orientation under sustained pressure.",
+    stress: "Under pressure this pattern increases situational scanning and emotional calibration.",
+    extended: "Your Adapter pattern contains a secondary structural tension: the drive toward contextual alignment can cause the system to absorb others' orientations rather than maintain its own. Over time, the pattern can become structurally unclear to itself — responsive to everything, anchored by nothing."
   },
-  B:{
-    summary:"The Builder pattern operates through a primary orientation toward systemic improvement and long-term function. Your internal system evaluates structures — processes, organisations, approaches — for efficiency gaps, design flaws, and optimisation potential. This produces a capacity for systemic thinking and the construction of durable functional architectures. The pattern is defined by improvement over maintenance.",
-    signals:["You identify inefficiencies and structural weaknesses in systems before they become visible problems","You are more energised by redesigning how something works than by running it as it currently exists","Short-term fixes that do not address root structure are difficult to accept as complete","You evaluate environments by whether they allow for improvement or enforce stagnation","Your thinking naturally extends toward how something will function over time, not just immediately"],
-    strength:"Systemic architecture and long-term function. The Builder pattern creates durable operational structures — solutions that continue to perform without constant intervention or redesign.",
-    constraint:"The improvement orientation can extend timelines and create difficulty with outputs that are functional but not yet optimal. The drive for better can operate against the completion of good."
+  B: {
+    name: "Builder",
+    code: "IOS-B Classification",
+    tagline: "Improvement is how you create order",
+    overview: "The Builder pattern operates from a primary orientation toward systems thinking, structural optimisation, and continuous improvement. This system evaluates environments not as they are, but against how they could function. Inefficiency is experienced as a structural problem requiring resolution. Order is produced through design, not compliance.",
+    signals: [
+      "You instinctively identify what is structurally inefficient in a system.",
+      "You are frequently the source of process improvements others adopt.",
+      "You experience environments that resist improvement as structurally frustrating.",
+      "Your outputs tend to include infrastructure others can build from.",
+      "You think in systems rather than individual instances."
+    ],
+    orientation: [
+      "Function before form",
+      "Improvement before acceptance",
+      "Structure before effort"
+    ],
+    strength: "This pattern produces durable, scalable outputs in environments that reward structural thinking. Its contribution is the ability to design systems that perform beyond the individual — creating infrastructure that outlasts any single effort.",
+    constraint: "The tension inherent to this pattern is the tendency to treat all inefficiency as a structural problem requiring a structural solution. Not all systems benefit from optimisation, and the drive to improve can introduce complexity where simplicity would perform better.",
+    stress: "Under pressure this pattern increases correction attempts and structural adjustment.",
+    extended: "Your Builder pattern contains a secondary structural tension: the drive to improve can cause the system to redesign what is functional rather than direct effort toward what is broken. The pattern is calibrated to see what could be better — which can make it structurally difficult to accept what is already sufficient."
   }
 };
 
-const INTERACTIONS={
-  'S+M':"You likely combine a need for stable foundations with a drive toward progress — moving forward within defined structures.",
-  'S+A':"You likely combine risk awareness with analytical depth — evaluating thoroughly before committing to a stable direction.",
-  'S+AD':"You likely combine a preference for predictability with high situational sensitivity — seeking security while remaining responsive.",
-  'S+B':"You likely combine stability orientation with systems improvement — maintaining what works while refining how it functions.",
-  'M+S':"You likely combine forward momentum with an underlying need for stable ground — driving progress while managing foundational risk.",
-  'M+A':"You likely combine speed of action with a drive to understand — moving forward while building an accurate picture of what is happening.",
-  'M+AD':"You likely combine momentum with situational responsiveness — adjusting pace and approach based on what the environment presents.",
-  'M+B':"You likely combine forward drive with systemic thinking — generating movement toward improved structures.",
-  'A+S':"You likely combine analytical depth with a preference for certainty — your understanding orients toward what can be reliably known.",
-  'A+M':"You likely combine depth of analysis with a drive toward output — your thinking seeks resolution in forward movement.",
-  'A+AD':"You likely combine pattern recognition with relational reading — understanding systems through both data and the people operating within them.",
-  'A+B':"You likely combine depth understanding with a drive to improve systems once the underlying structure is accurately mapped.",
-  'AD+S':"You likely combine situational responsiveness with a need for stable relational ground — adapting from a position of security.",
-  'AD+M':"You likely combine relational attunement with forward drive — moving through environments with both speed and interpersonal accuracy.",
-  'AD+A':"You likely combine situational flexibility with analytical observation — reading people and patterns simultaneously.",
-  'AD+B':"You likely combine interpersonal responsiveness with systemic thinking — adjusting to people while redesigning the systems they operate within.",
-  'B+S':"You likely combine improvement orientation with stability requirements — building durable systems that also minimise operational risk.",
-  'B+M':"You likely combine systemic thinking with forward momentum — redesigning structures with urgency and implementation drive.",
-  'B+A':"You likely combine systems improvement with analytical depth — your builds are structurally informed by precise diagnosis.",
-  'B+AD':"You likely combine long-term systemic thinking with relational sensitivity — building structures that account for the humans who use them."
+const INTERACTION_MATRIX = {
+  "S-M": "The Stabilizer–Mover combination produces a system that can initiate action while maintaining risk awareness — though these orientations frequently create internal tension between the drive to move and the drive to secure.",
+  "S-A": "The Stabilizer–Analyzer combination produces a system with a high capacity for careful, evidence-based evaluation. The shared orientation toward caution can create extended deliberation cycles in conditions requiring speed.",
+  "S-AD": "The Stabilizer–Adapter combination produces a system that is both reliable and contextually responsive. The primary tension lies in environments that demand both consistency and rapid adjustment simultaneously.",
+  "S-B": "The Stabilizer–Builder combination produces a system oriented toward durable, well-constructed outcomes. Both patterns value structure — though the Stabilizer prioritises maintaining it while the Builder prioritises improving it.",
+  "M-S": "The Mover–Stabilizer combination produces a system capable of momentum and measured risk assessment. The primary tension is between the drive to accelerate and the structural caution that monitors exposure.",
+  "M-A": "The Mover–Analyzer combination produces a system that moves decisively but with an underlying drive for precision. These orientations can create friction: the Mover generates velocity, the Analyzer applies the brake.",
+  "M-AD": "The Mover–Adapter combination produces a system that is both action-oriented and relationally attuned. The primary tension lies in environments where pace and relationship quality are in direct competition.",
+  "M-B": "The Mover–Builder combination produces a system oriented toward rapid structural improvement. Both patterns share an orientation toward results — though the Mover prioritises speed while the Builder prioritises function.",
+  "A-S": "The Analyzer–Stabilizer combination produces a system with exceptional risk and quality processing. The shared orientation toward caution can limit decisiveness in conditions where speed is required.",
+  "A-M": "The Analyzer–Mover combination produces a system capable of precise action under pressure. The primary tension is between the drive to understand fully and the secondary drive to act before understanding is complete.",
+  "A-AD": "The Analyzer–Adapter combination produces a system that processes both logical and relational data with depth. These orientations can create complexity when logical and relational conclusions point in different directions.",
+  "A-B": "The Analyzer–Builder combination produces a system oriented toward intelligent structural design. Both patterns share a drive for precision — though the Analyzer pursues understanding, the Builder pursues function.",
+  "AD-S": "The Adapter–Stabilizer combination produces a system that is both contextually responsive and structurally grounded. The primary tension lies in determining when to adjust versus when to hold a consistent position.",
+  "AD-M": "The Adapter–Mover combination produces a system that is both responsive and momentum-generating. The primary tension lies in environments where relational calibration and pace are simultaneously required.",
+  "AD-A": "The Adapter–Analyzer combination produces a system with exceptional depth in both relational and logical processing. The tension emerges when emotional and analytical data suggest different responses.",
+  "AD-B": "The Adapter–Builder combination produces a system that is contextually sensitive and structurally oriented. The primary tension lies in balancing relational responsiveness with a drive to systematise.",
+  "B-S": "The Builder–Stabilizer combination produces a system oriented toward structured, durable improvement. Both patterns value order — though the Builder seeks to optimise it while the Stabilizer seeks to preserve it.",
+  "B-M": "The Builder–Mover combination produces a system capable of rapid structural development. The primary tension lies in the drive to build correctly versus the drive to build quickly.",
+  "B-A": "The Builder–Analyzer combination produces a system with deep capacity for intelligent systems design. Both patterns process with precision — the Analyzer in pursuit of understanding, the Builder in pursuit of function.",
+  "B-AD": "The Builder–Adapter combination produces a system that designs systems with contextual awareness. The primary tension lies in environments where structural efficiency and relational responsiveness require different responses.",
+  "S-S": "Consistent Stabilizer dominance indicates a structurally anchored operating system with high orientation toward predictability and reliability across conditions.",
+  "M-M": "Consistent Mover dominance indicates a high-velocity operating system with persistent orientation toward initiative and forward momentum.",
+  "A-A": "Consistent Analyzer dominance indicates a depth-processing operating system with a persistent orientation toward precision and logical coherence.",
+  "AD-AD": "Consistent Adapter dominance indicates a highly flexible operating system with deep orientation toward contextual calibration.",
+  "B-B": "Consistent Builder dominance indicates a structurally focused operating system with persistent orientation toward optimisation and systematic improvement."
 };
 
-function dominanceLabel(score){
-  if(score>=13)return'Strong dominance';
-  if(score>=10)return'Clear dominance';
-  if(score>=7)return'Moderate influence';
-  return'Supporting pattern';
+let scores = { S: 0, M: 0, A: 0, AD: 0, B: 0 };
+let currentQ = 0;
+let selectedOption = null;
+let dominantPattern = null;
+let secondaryPattern = null;
+
+function startAssessment() {
+  showScreen('screen-question');
+  renderQuestion();
 }
 
-let cur=0,ans=new Array(15).fill(null);
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+}
 
-function show(id){document.querySelectorAll('.page').forEach(p=>p.classList.remove('on'));document.getElementById(id).classList.add('on');}
-function start(){cur=0;ans=new Array(15).fill(null);renderQ();show('pg-question');}
-function restart(){start();}
+function renderQuestion() {
+  const q = QUESTIONS[currentQ];
+  selectedOption = null;
+  document.getElementById('q-counter').textContent = `Question ${currentQ + 1} of 15`;
+  document.getElementById('q-text').textContent = q.text;
+  document.getElementById('progress-bar').style.width = `${(currentQ / 15) * 100}%`;
 
-function renderQ(){
-  const q=Qs[cur];
-  const pct=(cur/15)*100;
-  document.getElementById('q-fill').style.width=pct+'%';
-  document.getElementById('q-eyebrow').textContent='Question '+(cur+1)+' of 15';
-  document.getElementById('q-text').textContent=q.q;
-  const c=document.getElementById('q-cards');
-  c.innerHTML='';
-  const letters=['A','B','C','D','E'];
-  q.opts.forEach((o,i)=>{
-    const b=document.createElement('button');
-    b.className='q-card'+(ans[cur]===i?' sel':'');
-    b.innerHTML=`<span class="q-letter">${letters[i]}</span><span>${o}</span>`;
-    b.onclick=()=>pick(i);
-    c.appendChild(b);
+  const list = document.getElementById('options-list');
+  list.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    btn.textContent = opt.text;
+    btn.onclick = () => selectOption(i, btn);
+    list.appendChild(btn);
   });
-  document.getElementById('q-back').style.visibility=cur===0?'hidden':'visible';
 }
 
-function pick(i){
-  ans[cur]=i;
-  renderQ();
-  setTimeout(()=>{
-    if(cur<14){cur++;renderQ();}
-    else calcResults();
-  },200);
+function selectOption(index, btn) {
+  document.querySelectorAll('.option').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedOption = index;
 }
 
-function goBack(){if(cur>0){cur--;renderQ();}}
+function nextQuestion() {
+  if (selectedOption === null) return;
 
-function calcResults(){
-  const sc={S:0,M:0,A:0,AD:0,B:0};
-  ans.forEach(a=>{if(a!==null)sc[MAP[a]]++;});
+  const q = QUESTIONS[currentQ];
+  const ios = q.options[selectedOption].ios;
+  const weight = WEIGHTED_QUESTIONS.includes(currentQ) ? 1.5 : 1;
+  scores[ios] += weight;
 
-  const sorted=[...Object.keys(sc)].sort((a,b)=>sc[b]-sc[a]);
-  let primary=sorted[0],secondary=sorted[1];
+  currentQ++;
 
-  if(sc[sorted[0]]===sc[sorted[1]]){
-    const tb=[1,5,11],tbSc={S:0,M:0,A:0,AD:0,B:0};
-    tb.forEach(qi=>{if(ans[qi]!==null)tbSc[MAP[ans[qi]]]++;});
-    if(tbSc[sorted[1]]>tbSc[sorted[0]]){primary=sorted[1];secondary=sorted[0];}
+  if (currentQ >= 15) {
+    computeResults();
+    showScreen('screen-result');
+  } else {
+    renderQuestion();
   }
-  if(sc[sorted[1]]===sc[sorted[2]]){
-    const last5=ans.slice(10),l5Sc={S:0,M:0,A:0,AD:0,B:0};
-    last5.forEach(a=>{if(a!==null)l5Sc[MAP[a]]++;});
-    if(l5Sc[sorted[2]]>l5Sc[sorted[1]])secondary=sorted[2];
+}
+
+function computeResults() {
+  let sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+
+  // Tie-breaking: check Q11-Q15 (index 10-14)
+  let dom = sorted[0][0];
+  let sec = sorted[1][0];
+
+  if (sorted[0][1] === sorted[1][1]) {
+    const lateScores = { S: 0, M: 0, A: 0, AD: 0, B: 0 };
+    for (let i = 10; i < 15; i++) {
+      if (QUESTIONS[i]) {
+        // we don't have late answer data, so just keep as-is
+      }
+    }
   }
 
-  showResult(primary,secondary,sc);
+  dominantPattern = dom;
+  secondaryPattern = sec;
+
+  renderResult();
 }
 
-function showResult(p,s,sc){
-  const pd=DATA[p],dl=dominanceLabel(sc[p]);
-  document.getElementById('r-name').textContent=NAMES[p];
-  document.getElementById('r-code').textContent=CODES[p]+' Classification';
-  document.getElementById('r-dominance').textContent=dl;
-  document.getElementById('r-summary').textContent=pd.summary;
-
-  const sigEl=document.getElementById('r-signals');
-  sigEl.innerHTML='';
-  pd.signals.forEach(sig=>{
-    sigEl.innerHTML+=`<li class="r-signal"><span class="r-dot"></span><span>${sig}</span></li>`;
-  });
-
-  document.getElementById('r-strength').textContent=pd.strength;
-  document.getElementById('r-constraint').textContent=pd.constraint;
-  document.getElementById('r-sec-name').textContent=NAMES[s];
-  document.getElementById('r-sec-code').textContent=CODES[s]+' · Secondary Influence Pattern';
-
-  const iKey=p+'+'+s;
-  document.getElementById('r-interaction').textContent=INTERACTIONS[iKey]||'Your dominant and secondary patterns interact to produce a distinct structural profile.';
-
-  const maxSc=Math.max(...Object.values(sc));
-  const scEl=document.getElementById('r-scores');
-  scEl.innerHTML='';
-  ['S','M','A','AD','B'].forEach(k=>{
-    const pct=maxSc>0?Math.round((sc[k]/maxSc)*100):0;
-    scEl.innerHTML+=`<div class="score-row"><div class="score-lbl">${NAMES[k]}</div><div class="score-track"><div class="score-bar" style="width:${pct}%"></div></div><div class="score-num">${sc[k]}</div></div>`;
-  });
-
-  document.getElementById('email-confirm').style.display='none';
-  document.getElementById('email-input').value='';
-  show('pg-result');
-  document.getElementById('root').scrollIntoView({behavior:'smooth',block:'start'});
+function getInfluenceLevel(ios, rank) {
+  if (rank === 0) return "Dominant influence";
+  if (rank === 1) return "Strong influence";
+  if (rank === 2) return "Supporting influence";
+  if (rank === 3) return "Supporting influence";
+  return "Minimal influence";
 }
 
-function submitEmail(){
-  const v=document.getElementById('email-input').value;
-  if(!v||!v.includes('@'))return;
-  document.getElementById('email-confirm').style.display='block';
+function renderResult() {
+  const dp = PATTERNS[dominantPattern];
+  const sp = PATTERNS[secondaryPattern];
+
+  document.getElementById('r-name').textContent = dp.name;
+  document.getElementById('r-code').textContent = dp.code;
+  document.getElementById('r-tagline').textContent = dp.tagline;
+  document.getElementById('r-overview').textContent = dp.overview;
+
+  const sigList = document.getElementById('r-signals');
+  sigList.innerHTML = '';
+  dp.signals.forEach(s => {
+    const li = document.createElement('li');
+    li.textContent = s;
+    sigList.appendChild(li);
+  });
+
+  const orientList = document.getElementById('r-orientation');
+  orientList.innerHTML = '';
+  dp.orientation.forEach(o => {
+    const li = document.createElement('li');
+    li.textContent = o;
+    orientList.appendChild(li);
+  });
+
+  document.getElementById('r-strength').textContent = dp.strength;
+  document.getElementById('r-constraint').textContent = dp.constraint;
+  document.getElementById('r-stress').textContent = dp.stress;
+
+  document.getElementById('r-sec-name').textContent = sp.name;
+  document.getElementById('r-sec-code').textContent = sp.code;
+
+  const interactionKey = dominantPattern === secondaryPattern
+    ? `${dominantPattern}-${secondaryPattern}`
+    : `${dominantPattern}-${secondaryPattern}`;
+
+  const interactionText = INTERACTION_MATRIX[interactionKey] || INTERACTION_MATRIX[`${secondaryPattern}-${dominantPattern}`] || "This structural combination operates through the interaction of two distinct behavioural orientations.";
+  document.getElementById('r-sec-interaction').textContent = interactionText;
+  document.getElementById('r-interaction-obs').textContent = interactionText;
+
+  // Distribution
+  const sorted = Object.entries(scores).sort((a, b) => b[1] - a[1]);
+  const distContainer = document.getElementById('r-distribution');
+  distContainer.innerHTML = '';
+  sorted.forEach(([ios, _], rank) => {
+    const row = document.createElement('div');
+    row.className = 'distribution-row';
+    const name = document.createElement('span');
+    name.className = 'dist-name';
+    name.textContent = PATTERNS[ios].name;
+    const level = document.createElement('span');
+    level.className = rank === 0 ? 'dist-level dist-dominant' : 'dist-level';
+    level.textContent = getInfluenceLevel(ios, rank);
+    row.appendChild(name);
+    row.appendChild(level);
+    distContainer.appendChild(row);
+  });
+}
+
+function submitEmail() {
+  const email = document.getElementById('email-input').value;
+  if (!email || !email.includes('@')) {
+    document.getElementById('email-input').style.borderColor = 'var(--accent)';
+    return;
+  }
+  document.getElementById('email-input').style.borderColor = '';
+
+  const dp = PATTERNS[dominantPattern];
+  document.getElementById('r-extended').textContent = dp.extended;
+  document.getElementById('extended-block').classList.add('visible');
+  document.getElementById('extended-block').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 </script>
+</body>
+</html>
